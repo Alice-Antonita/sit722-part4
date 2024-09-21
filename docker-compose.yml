@@ -1,1 +1,21 @@
-# Your Solution
+version: "3.8"
+
+services:
+  book_catalog:
+    build:
+      context: ./book_catalog
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    environment:
+      - DATABASE_URL=postgresql://sit722_part3_sq3i_user:Clm2X7US2eMbm9c4Yb9JNl88Cgf1kUVb@dpg-crmg64i3esus73fsivsg-a.oregon-postgres.render.com/sit722_part3_sq3i
+
+  inventory_management:
+    build:
+      context: ./inventory_management
+      dockerfile: Dockerfile
+    ports:
+      - "8001:80"
+    environment:
+      - DATABASE_URL=postgresql://sit722_part3_sq3i_user:Clm2X7US2eMbm9c4Yb9JNl88Cgf1kUVb@dpg-crmg64i3esus73fsivsg-a.oregon-postgres.render.com/sit722_part3_sq3i
+      

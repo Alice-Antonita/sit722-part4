@@ -1,1 +1,72 @@
-# Your Solution
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-catalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-catalog
+  template:
+    metadata:
+      labels:
+        app: book-catalog
+    spec:
+      containers:
+        - name: book-catalog
+          image: alicesit722week08.azurecr.io/sit722-part3-book_catalog:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: DATABASE_URL
+              value: postgresql://sit722_part3_sq3i_user:Clm2X7US2eMbm9c4Yb9JNl88Cgf1kUVb@dpg-crmg64i3esus73fsivsg-a.oregon-postgres.render.com/sit722_part3_sq3i
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-catalog-service
+spec:
+  selector:
+    app: book-catalog
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-management
+  template:
+    metadata:
+      labels:
+        app: inventory-management
+    spec:
+      containers:
+        - name: inventory-management
+          image: alicesit722week08.azurecr.io/sit722-part3-inventory_management:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: DATABASE_URL
+              value: postgresql://sit722_part3_sq3i_user:Clm2X7US2eMbm9c4Yb9JNl88Cgf1kUVb@dpg-crmg64i3esus73fsivsg-a.oregon-postgres.render.com/sit722_part3_sq3i
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-management-service
+spec:
+  selector:
+    app: inventory-management
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
